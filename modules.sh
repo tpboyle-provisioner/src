@@ -13,7 +13,7 @@ defined_modules () {
 
 module_is_defined () {
   name="$1"
-  defined_modules | grep -qi "$name"
+  defined_modules | grep -qi "^$name$"
 }
 
 get_module_line () {
@@ -22,38 +22,43 @@ get_module_line () {
 }
 
 
-# DOWNLOAD MODULES
+# UPDATE MODULES
 
-download_all_modules () {
+update_all_modules () {
   module_lines="$(defined_module_lines)"
   while IFS= read -r module_line; do
-    download_module_from_line "$module_line"
+    update_module_from_line "$module_line"
   done <<< "$module_lines"
 }
 
-download_modules () {
+update_modules () {
   for module in "$@"; do
+    echo "module: $module"
     if [[ "$module" == "all" ]]; then
-      download_all_modules
-    elif module_is_defined "$module"; then
-      download_module "$module"
+      update_all_modules
+    else
+      update_module "$module"
     fi
   done
 }
 
-download_module () {
+update_module () {
   name="$1"
+  if ! module_is_defined "$name"; then
+    echo "Module $name is not defined!"
+    return 1
+  fi
   line="$(get_module_line "$name")"
-  download_module_from_line "$line"
+  update_module_from_line "$line"
 }
 
-download_module_from_line () {
+update_module_from_line () {
   line="$1"
   git_path="$(module_url "$line")"
   name="$(module_name "$line")"
-  echo "Downloading module $name ($git_path)..."
+  echo "Updating module $name ($git_path)..."
   if module_exists "$name"; then
-    update_module "$name"
+    pull_module "$name"
   else
     clone_module "$name" "$git_path"
   fi
@@ -80,7 +85,7 @@ module_exists () {
 }
 
 
-# MODULE DOWNLOAD HELPERS
+# MODULE UPDATE HELPERS
 
 clone_module () {
   name="$1"
@@ -88,7 +93,7 @@ clone_module () {
   git clone "$git_path" "./modules/$name"
 }
 
-update_module () {
+pull_module () {
   name="$1"
   cd "./modules/$name"
   git pull
