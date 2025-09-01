@@ -33,7 +33,6 @@ update_all_modules () {
 
 update_modules () {
   for module in "$@"; do
-    echo "module: $module"
     if [[ "$module" == "all" ]]; then
       update_all_modules
     else
@@ -62,7 +61,6 @@ update_module_from_line () {
   else
     clone_module "$name" "$git_path"
   fi
-  ln -sf "$ROOT_DIR/src" "./modules/$name/src"
 }
 
 
@@ -97,5 +95,5 @@ pull_module () {
   name="$1"
   cd "./modules/$name"
   git pull
-  cd -
+  cd - &> /dev/null
 }

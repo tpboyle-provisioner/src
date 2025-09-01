@@ -1,6 +1,8 @@
+#!/bin/bash
 
 snap_install () {
-  sudo snap install "$@"
+  info "snap" "Installing package '$1'..."
+  sudo snap install "$@" &> /dev/null
 }
 
 snap_package_is_installed () {
@@ -16,8 +18,6 @@ snap_ensure_package_is_installed () {
   package="$1"
   if ! $(snap_package_is_installed "$package"); then
     snap_install "$@"
-  else
-    echo "$package is already installed."
   fi
 }
 

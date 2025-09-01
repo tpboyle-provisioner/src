@@ -1,3 +1,4 @@
+#!/bin/bash
 
 debug () {
   module="$1"
