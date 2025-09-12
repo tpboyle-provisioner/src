@@ -3,19 +3,19 @@
 DEB_LOCATION="/tmp/install.deb"
 
 dpkg_package_is_installed () {
-  package="$1"
+  local package="$1"
   dpkg -l | grep -q "^ii\s\+$package "
 }
 
 dpkg_install_deb_from_url () {
-  url="$1"
+  local url="$1"
   wget -O "$DEB_LOCATION" "$url"
   sudo dpkg -i "$DEB_LOCATION"
 }
 
 dpkg_ensure_package_is_installed () {
-  package="$1"
-  url="$2"
+  local package="$1"
+  local url="$2"
   if ! dpkg_package_is_installed "$package"; then
     dpkg_install_deb_from_url "$url"
   fi

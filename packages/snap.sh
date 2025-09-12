@@ -6,7 +6,7 @@ snap_install () {
 }
 
 snap_package_is_installed () {
-  package="$1"
+  local package="$1"
   if snap list | grep -q "^$package"; then
     return 0
   else
@@ -15,14 +15,14 @@ snap_package_is_installed () {
 }
 
 snap_ensure_package_is_installed () {
-  package="$1"
+  local package="$1"
   if ! $(snap_package_is_installed "$package"); then
     snap_install "$@"
   fi
 }
 
 snap_ensure_packages_are_installed () {
-  packages=("$@")
+  local packages=("$@")
   for package in "${packages[@]}"; do
     snap_ensure_package_is_installed "$package"
   done
