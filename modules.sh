@@ -109,6 +109,40 @@ run_module () {
 }
 
 
+# CONF MODULES
+
+conf_modules () {
+  modules="$@"
+  for module in $modules; do
+    conf_module "$module"
+  done
+}
+
+conf_module () {
+  module="$1"
+  if [[ -d "./modules/$module" ]]; then
+    edit_module_conf_if_exists "$module"
+  else
+    echo "ERROR: No such module to configure: $1"
+    return 1
+  fi
+}
+
+edit_module_conf_if_exists () {
+  module="$1"
+  if [[ -f "./modules/$module/conf.sh" ]]; then
+    edit_module_conf "$module"
+  else
+    echo "ERROR: No conf.sh present for module: $module"
+    return 1
+  fi
+}
+
+edit_module_conf () {
+  "${EDITOR:-vim}" "./modules/$1/conf.sh"
+}
+
+
 # MODULE DEFINITIONS
 
 defined_module_lines () {
