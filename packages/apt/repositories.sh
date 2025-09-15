@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Get current directory
-PACKAGES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+APT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 
 # REPOSITORIES
