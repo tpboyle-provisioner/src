@@ -21,7 +21,7 @@ dpkg_ensure_package_is_installed () {
 
 dpkg_package_is_installed () {
   local package="$1"
-  dpkg -l | grep -q "^ii\s\+$package "
+  dpkg -l | grep -q "^ii\s\+$package[ :]"
 }
 
 dpkg_install_deb_from_url () {
