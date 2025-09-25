@@ -24,3 +24,7 @@ user_is_in_group () {
   local group="$2"
   id -nG "$user" | grep -qw "$group"
 }
+
+current_user_is_sudo () {
+  test "$(whoami)" = "root"
+}
