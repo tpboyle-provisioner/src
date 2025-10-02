@@ -15,7 +15,7 @@ apt_update () {
 apt_install () {
   local package="$1"
   info "apt" "Installing package '$package'..."
-  sudo apt install -y "$package" &> /dev/null
+  sudo apt install -y "$package"
 }
 
 apt_package_is_installed () {
