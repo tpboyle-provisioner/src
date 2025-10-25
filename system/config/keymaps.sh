@@ -4,6 +4,7 @@ source "./src/system/files.sh"
 
 set_keymap () {
   local keymap="$1"
+  echo "Setting the keymap to '$keymap'..."
   if ! keymap_is_defined "$keymap"; then
     return 1
   fi

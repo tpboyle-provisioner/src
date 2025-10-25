@@ -4,23 +4,26 @@
 # FILESYSTEMS
 
 make_filesystems () {
-  make_boot_filesystem
-  make_swap_filesystem
-  make_root_filesystem
+  local hdd="$1"
+  make_boot_filesystem "${hdd}1"
+  make_swap_filesystem "${hdd}2"
+  make_root_filesystem "${hdd}3"
 }
 
 make_boot_filesystem () {
-  echo "Making boot filesystem..."
-  mkfs.fat -F32 "${DEVICE}1" 1> /dev/null
+  local partition="$1"
+  echo "Making boot filesystem on partition '$partition'..."
+  mkfs.fat -F32 "${partition}" 1> /dev/null
 }
 
 make_swap_filesystem () {
-  echo "Making swap filesystem..."
+  local partition="$1"
+  echo "Making swap filesystem on partition '$partition'..."
   if swap_already_on; then
-    swapoff "${DEVICE}2" 1> /dev/null
+    swapoff "$partition" 1> /dev/null
   fi
-  mkswap "${DEVICE}2" 1> /dev/null
-  swapon "${DEVICE}2" 1> /dev/null
+  mkswap "$partition" 1> /dev/null
+  swapon "$partition" 1> /dev/null
 }
 
 swap_already_on () {
@@ -28,17 +31,20 @@ swap_already_on () {
 }
 
 make_root_filesystem () {
-  echo "Making root filesystem..."
-  unmount_root_filesystem
-  mkfs.ext4 "${DEVICE}3" 1> /dev/null
+  local partition="$1"
+  echo "Making root filesystem on partition '$partition'..."
+  unmount_root_filesystem "$partition"
+  mkfs.ext4 "$partition" 1> /dev/null
 }
 
 unmount_root_filesystem () {
-  while root_filesystem_is_mounted; do
-    umount "${DEVICE}3"  # can alternately unmount the folder /mnt/root
+  local partition="$1"
+  while root_filesystem_is_mounted "$partition"; do
+    umount "$partition"  # can alternately unmount the folder /mnt/root
   done
 }
 
 root_filesystem_is_mounted () {
-  lsblk "${DEVICE}3" | grep -q /mnt/root
+  local partition="$1"
+  lsblk "$partition" | grep -q /mnt/root
 }

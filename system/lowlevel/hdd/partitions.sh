@@ -1,8 +1,7 @@
 #!/bin/bash
 
 source "./src/system/files.sh"
-
-DEVICE="/dev/vda"
+source "./src/system/lowlevel/firmware.sh"
 
 BOOT_PARTITION_NUMBER=1
 SWAP_PARTITION_NUMBER=2
@@ -16,43 +15,54 @@ SWAP_PARTITION_TYPE="8200"
 ROOT_PARTITION_TYPE="8300"
 
 
-# ALL
-
-run_partition_jobs () {
-  partition_hard_drive
-  make_filesystems
-  mount_partitions
-}
-
 # PARTITIONS
 
 wipe_hard_drive () {
-  dd if=/dev/zero of="$DEVICE" status=progress
+  local hdd="$1"
+  dd if=/dev/zero of="$hdd" status=progress
 }
 
 partition_hard_drive () {
-  echo "Partitioning hard drive..."
-  create_gpt_table
-  create_boot_partition
-  create_swap_partition
-  create_root_partition
-}
-
-delete_gpt_table () {
-  echo "Deleting any existing GPT table..."
-  sgdisk --zap-all $DEVICE 1> /dev/null
+  local hdd="$1"
+  echo "Partitioning hard drive '$hdd'..."
+  create_gpt_table "$hdd"
+  create_partitions "$hdd"
 }
 
 create_gpt_table () {
-  delete_gpt_table
+  local hdd="$1"
+  delete_gpt_table "$hdd"
   echo "Creating a new GPT table..."
-  sgdisk -g $DEVICE 1> /dev/null
+  sgdisk -g "$hdd" #1> /dev/null
+}
+
+delete_gpt_table () {
+  local hdd="$1"
+  prep_for_deleting_gpt_table "$hdd"
+  echo "Deleting any existing GPT table from '$hdd'..."
+  sgdisk --zap-all "$hdd" #1> /dev/null
+}
+
+prep_for_deleting_gpt_table () {
+  local hdd="$1"
+  echo "Preparing to delete any existing GPT table from '$hdd'..."
+  swapoff ${hdd}* &> /dev/null
+  umount ${hdd}* &> /dev/null
+}
+
+create_partitions () {
+  local hdd="$1"
+  create_boot_partition "$hdd"
+  create_swap_partition "$hdd"
+  create_root_partition "$hdd"
 }
 
 create_boot_partition () {
+  local hdd="$1"
   echo "Creating boot partition..."
   local boot_partition_type="$(get_boot_partition_type)"
   create_partition \
+    "$hdd" \
     "$BOOT_PARTITION_NUMBER" \
     "$BOOT_PARTITION_SIZE" \
     "$boot_partition_type" \
@@ -68,8 +78,10 @@ get_boot_partition_type () {
 }
 
 create_swap_partition () {
+  local hdd="$1"
   echo "Creating swap partition..."
   create_partition \
+    "$hdd" \
     "$SWAP_PARTITION_NUMBER" \
     "$SWAP_PARTITION_SIZE" \
     "$SWAP_PARTITION_TYPE" \
@@ -77,8 +89,10 @@ create_swap_partition () {
 }
 
 create_root_partition () {
+  local hdd="$1"
   echo "Creating root partition..."
   create_partition \
+    "$hdd" \
     "$ROOT_PARTITION_NUMBER" \
     "$ROOT_PARTITION_SIZE" \
     "$ROOT_PARTITION_TYPE" \
@@ -86,15 +100,16 @@ create_root_partition () {
 }
 
 create_partition () {
-  local number="$1"
-  local size="$2"
-  local type="$3"
-  local name="$4"
+  local hdd="$1"
+  local number="$2"
+  local size="$3"
+  local type="$4"
+  local name="$5"
   sgdisk \
     -n "$number::$size" \
     -t "$number:$type" \
     -c "$number:$name" \
-    "$DEVICE" \
+    "$hdd" \
       1> /dev/null
 }
 
