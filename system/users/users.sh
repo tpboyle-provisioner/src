@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source "./src/system/users/groups.sh"
+
 # USERS
 
 ensure_user_exists () {
@@ -31,11 +33,17 @@ set_user_password () {
   echo "$password" | passwd --stdin "$user"
 }
 
+configure_sudoer_user () {
+  username="$(configure_standard_user)"
+  ensure_user_is_in_group "$username" "wheel"
+}
+
 configure_standard_user () {
   username="$(read_username)"
   create_user "$username"
   password="$(read_password "$username")"
   set_user_password "$username" "$password"
+  echo "$username"
 }
 
 configure_root () {

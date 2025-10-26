@@ -1,5 +1,12 @@
 #!/bin/bash
 
+header () {
+  title="$1"
+  echo
+  echo "=== $title ==="
+  echo
+}
+
 debug () {
   local module="$1"
   local message="$2"

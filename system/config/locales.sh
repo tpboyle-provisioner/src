@@ -19,11 +19,11 @@ set_locale () {
 
 locale_defined () {
   locale="$1"
-  file_contains "/etc/locale.gen" "^#$locale"
+  file_contains_regex "/etc/locale.gen" "^#$locale"
 }
 
 locale_enabled () {
   locale="$1"
-  file_contains "/etc/locale.gen" "^$locale"
+  file_contains_regex "/etc/locale.gen" "^$locale"
 }
 

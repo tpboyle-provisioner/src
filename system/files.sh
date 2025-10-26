@@ -13,5 +13,11 @@ dir_exists () {
 file_contains () {
   local filepath="$1"
   local contents="$2"
+  cat "$filepath" | grep -q "$contents"
+}
+
+file_contains_regex () {
+  local filepath="$1"
+  local contents="$2"
   cat "$filepath" | grep -Eq "$contents"
 }

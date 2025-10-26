@@ -1,10 +1,10 @@
 #!/bin/bash
 
+source "./src/logger.sh"
+
 pacman_run_pacstrap () {
   local root_path="$1"
-  echo
-  echo "=== PACSTRAP ==="
-  echo
+  header "PACSTRAP"
   # pacman_prep_partition_for_pacstrap "$root_path"
   echo "Running pacstrap on root path '$root_path'..."
   pacstrap "$root_path" \
