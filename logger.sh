@@ -1,5 +1,8 @@
 #!/bin/bash
 
+
+# INTERFACE
+
 header () {
   title="$1"
   echo

@@ -1,5 +1,8 @@
 #!/bin/bash
 
+
+# INTERFACE
+
 synchronize_os_clock () {
   echo "Synchronizing the OS clock with NTP..."
   timedatectl set-ntp true

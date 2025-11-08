@@ -1,6 +1,12 @@
 #!/bin/bash
 
+
+# SOURCES
+
 source "./src/system/files.sh"
+
+
+# INTERFACE
 
 set_keymap () {
   local keymap="$1"

@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# PACKAGES
+
+# INTERFACE
 
 pacman_ensure_packages_are_installed () {
   IFS=' ' read -r -a packages <<< "$@"
@@ -13,7 +14,7 @@ pacman_ensure_package_is_installed () {
   local package="$@"
   echo "1"
   if ! pacman_package_is_installed "$package"; then
-    pacman_install "$package"
+    pacman_install_package "$package"
   fi
 }
 
@@ -22,7 +23,7 @@ pacman_package_is_installed () {
   pacman --query 2> /dev/null | grep "$package"
 }
 
-pacman_install () {
+pacman_install_package () {
   local package="$1"
   info "pacman" "Installing package '$package'..."
   pacman -Sy "$package"

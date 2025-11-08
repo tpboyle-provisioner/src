@@ -1,36 +1,20 @@
 #!/bin/bash
 
+# Get current directory
+SRC_USERS_CONFIG_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+
+# SOURCES
+
 source "./src/system/users/groups.sh"
+source "$SRC_USERS_CONFIG_DIR/auto.sh"
 
-# USERS
 
-ensure_user_exists () {
-  local user="$1"
-  if ! user_exists "$user"; then
-    create_user "$user"
-  fi
-}
+# INTERFACE
 
-user_exists () {
-  local user="$1"
-  cat /etc/passwd | grep -qE "^$user"
-}
-
-create_user () {
-  local user="$1"
-  shift
-  local args="$@"
-  useradd \
-    -m \
-    -s /bin/bash \
-    $args \
-    "$user"
-}
-
-set_user_password () {
-  local user="$1"
-  local password="$2"
-  echo "$password" | passwd --stdin "$user"
+configure_root () {
+  password="$(read_password "root")"
+  set_user_password "root" "$password"
 }
 
 configure_sudoer_user () {
@@ -46,10 +30,8 @@ configure_standard_user () {
   echo "$username"
 }
 
-configure_root () {
-  password="$(read_password "root")"
-  set_user_password "root" "$password"
-}
+
+# IMPLEMENTATION
 
 read_username () {
   read -p "Enter the standard user's name [$DEFAULT_USER_NAME]: " name

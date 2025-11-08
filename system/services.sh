@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 # ENABLED AND ACTIVE
 
 ensure_service_is_enabled_and_active () {

@@ -1,15 +1,12 @@
 #!/bin/bash
 
-# Get current directory
-APT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
 
 # CONFIG
 
 APT_KEYRINGS_PATH="/etc/apt/keyrings"
 
 
-# KEYRINGS
+# INTERFACE
 
 apt_ensure_key_is_installed () {
   name="$1"
@@ -32,6 +29,9 @@ apt_install_key () {
   sudo curl -fsSL "$key_url" -o "$key_fn"
   sudo chmod a+r "$key_fn"
 }
+
+
+# IMPLEMENTATION
 
 _apt_ensure_keyrings_dir_exists () {
   if [ -d "$APT_KEYRINGS_PATH" ]; then

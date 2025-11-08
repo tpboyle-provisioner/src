@@ -1,15 +1,12 @@
 #!/bin/bash
 
-# Get current directory
-APT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
 
 # CONFIG
 
 APT_SOURCES_LIST_PATH="/etc/apt/sources.list.d"
 
 
-# SOURCES
+# INTERFACE
 
 apt_ensure_sources_file_exists () {
   name="$1"

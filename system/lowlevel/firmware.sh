@@ -1,6 +1,12 @@
 #!/bin/bash
 
+
+# SOURCES
+
 source "./src/system/files.sh"
+
+
+# INTERFACE
 
 bios_type () {
   local output="bios"

@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# WHEEL
+
+# INTERFACE
 
 ensure_wheel_user_exists () {
   local user="$1"
@@ -19,4 +20,8 @@ create_wheel_user () {
   local user="$1"
   create_user "$user"
   ensure_user_is_in_group "$user" "$wheel"
+}
+
+current_user_is_sudo () {
+  test "$(whoami)" = "root"
 }

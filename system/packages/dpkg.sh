@@ -16,9 +16,6 @@ dpkg_ensure_package_is_installed () {
   fi
 }
 
-
-# IMPLEMENTATION
-
 dpkg_package_is_installed () {
   local package="$1"
   dpkg -l | grep -q "^ii\s\+$package[ :]"

@@ -1,8 +1,20 @@
 #!/bin/bash
 
-snap_install () {
-  info "snap" "Installing package '$1'..."
-  sudo snap install "$@" &> /dev/null
+
+# IMPLEMENTATION
+
+snap_ensure_packages_are_installed () {
+  local packages=("$@")
+  for package in "${packages[@]}"; do
+    snap_ensure_package_is_installed "$package"
+  done
+}
+
+snap_ensure_package_is_installed () {
+  local package="$1"
+  if ! $(snap_package_is_installed "$package"); then
+    snap_install_package "$@"
+  fi
 }
 
 snap_package_is_installed () {
@@ -14,16 +26,7 @@ snap_package_is_installed () {
   fi
 }
 
-snap_ensure_package_is_installed () {
-  local package="$1"
-  if ! $(snap_package_is_installed "$package"); then
-    snap_install "$@"
-  fi
-}
-
-snap_ensure_packages_are_installed () {
-  local packages=("$@")
-  for package in "${packages[@]}"; do
-    snap_ensure_package_is_installed "$package"
-  done
+snap_install_package () {
+  info "snap" "Installing package '$1'..."
+  sudo snap install "$@" &> /dev/null
 }

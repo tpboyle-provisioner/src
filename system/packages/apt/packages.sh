@@ -3,25 +3,13 @@
 # Get current directory
 APT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+
+# SOURCES
+
 source "$APT_DIR/../dpkg.sh"
 
 
-# PACKAGES
-
-apt_update () {
-  sudo apt update
-}
-
-apt_install () {
-  local package="$1"
-  info "apt" "Installing package '$package'..."
-  sudo apt install -y "$package"
-}
-
-apt_package_is_installed () {
-  local package="$1"
-  dpkg_package_is_installed "$package"
-}
+# INTERFACE
 
 apt_ensure_packages_are_installed () {
   local packages=("$@")
@@ -33,6 +21,21 @@ apt_ensure_packages_are_installed () {
 apt_ensure_package_is_installed () {
   local package="$1"
   if ! apt_package_is_installed "$package"; then
-    apt_install "$package"
+    apt_install_package "$package"
   fi
+}
+
+apt_package_is_installed () {
+  local package="$1"
+  dpkg_package_is_installed "$package"
+}
+
+apt_install_package () {
+  local package="$1"
+  info "apt" "Installing package '$package'..."
+  sudo apt install -y "$package"
+}
+
+apt_update () {
+  sudo apt update
 }

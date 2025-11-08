@@ -1,11 +1,11 @@
 #!/bin/bash
 
-source "./src/logger.sh"
+
+# INTERFACE
 
 pacman_run_pacstrap () {
   local root_path="$1"
-  header "PACSTRAP"
-  # pacman_prep_partition_for_pacstrap "$root_path"
+  # _pacman_prep_partition_for_pacstrap "$root_path"
   echo "Running pacstrap on root path '$root_path'..."
   pacstrap "$root_path" \
     base \
@@ -25,7 +25,10 @@ pacman_run_pacstrap () {
     snapper
 }
 
-pacman_prep_partition_for_pacstrap () {
+
+# IMPLEMENTATION
+
+_pacman_prep_partition_for_pacstrap () {
   local root_path="$1"
   echo "Clearing root partition..."
   rm -rf "$root_path/{*,.*}"

@@ -1,5 +1,8 @@
 #!/bin/bash
 
+
+# INTERFACE
+
 file_exists () {
   local filepath="$1"
   test -f "$filepath"

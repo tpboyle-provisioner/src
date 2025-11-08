@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# GROUPS
+
+# INTERFACE
 
 ensure_user_is_in_groups () {
   local user="$1"
@@ -23,8 +24,4 @@ user_is_in_group () {
   local user="$1"
   local group="$2"
   id -nG "$user" | grep -qw "$group"
-}
-
-current_user_is_sudo () {
-  test "$(whoami)" = "root"
 }

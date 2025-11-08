@@ -1,8 +1,14 @@
 #!/bin/bash
 
+
+# CONFIG
+
 TEST_PING_IP="8.8.8.8" # Google's public DNS server
 TEST_PING_COUNT=1      # Number of pings to send
 TEST_PING_TIMEOUT=2    # Timeout in seconds
+
+
+# INTERFACE
 
 is_connected_to_internet () {
   echo "Checking that we're connected to the Internet..."
