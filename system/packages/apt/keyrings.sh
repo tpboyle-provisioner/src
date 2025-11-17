@@ -9,23 +9,23 @@ APT_KEYRINGS_PATH="/etc/apt/keyrings"
 # INTERFACE
 
 apt_ensure_key_is_installed () {
-  name="$1"
-  url="$2"
+  local name="$1"
+  local url="$2"
   if ! apt_key_is_installed "$name"; then
     apt_install_key "$name" "$url"
   fi
 }
 
 apt_key_is_installed () {
-  name="$1"
-  key_fn="$name.asc"
+  local name="$1"
+  local key_fn="$name.asc"
   ls "$APT_KEYRINGS_PATH" | grep -qi "$key_fn"
 }
 
 apt_install_key () {
-  name="$1"
-  key_url="$2"
-  key_fn="$APT_KEYRINGS_PATH/$name.asc"
+  local name="$1"
+  local key_url="$2"
+  local key_fn="$APT_KEYRINGS_PATH/$name.asc"
   sudo curl -fsSL "$key_url" -o "$key_fn"
   sudo chmod a+r "$key_fn"
 }

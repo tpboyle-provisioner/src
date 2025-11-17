@@ -24,6 +24,7 @@ _generate_grub_uuid_string () {
   local encrypted_partition_uuid="$1"
   local crypt_fs_name="$2"
   echo "$(_generate_grub_uuid_string_for_systemd_mkinitcpio "$encrypted_partition_uuid" "$crypt_fs_name")"
+  # TODO: Implement switcher for systemd/udev string...
 }
 
 _generate_grub_uuid_string_for_systemd_mkinitcpio () {

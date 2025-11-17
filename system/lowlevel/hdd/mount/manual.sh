@@ -12,6 +12,7 @@ mount_default_filesystems () {
   local hdd="$1"
   local root_path="$2"
   if [[ "$ENCRYPT_ROOT" == "no" && "$ROOT_FS_TYPE" == "ext4" ]]; then
+    # TODO: Can we remove this hard-coded check and move it somewhere more appropriate?
     mount_root_filesystem "${hdd}3" "$root_path"
   fi
   mount_boot_filesystem "${hdd}1" "$root_path"

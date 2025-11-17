@@ -112,14 +112,14 @@ run_module () {
 # CONF MODULES
 
 conf_modules () {
-  modules="$@"
+  local modules="$@"
   for module in $modules; do
     conf_module "$module"
   done
 }
 
 conf_module () {
-  module="$1"
+  local module="$1"
   if [[ -d "./modules/$module" ]]; then
     edit_module_conf_if_exists "$module"
   else
@@ -129,7 +129,7 @@ conf_module () {
 }
 
 edit_module_conf_if_exists () {
-  module="$1"
+  local module="$1"
   if [[ -f "./modules/$module/conf.sh" ]]; then
     edit_module_conf "$module"
   else

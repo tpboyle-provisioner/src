@@ -18,6 +18,7 @@ enable_encryption_in_mkinitcpio () {
 # IMPLEMANTION
 
 _enable_encryption_in_mkinitcpio () {
+  # TODO: Implement switcher for systemd/udev mkinitcpio...
   # if _is_systemd_mkinitcpio; then
     _enable_encryption_in_systemd_mkinitcpio
   # else

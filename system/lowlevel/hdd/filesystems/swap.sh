@@ -4,7 +4,7 @@
 # INTERFACE
 
 make_swap_filesystem () {
-  partition="$1"
+  local partition="$1"
   echo "Making swap filesystem on partition '$partition'..."
   if swap_already_on; then
     disable_swap_filesystem "$partition"
@@ -16,7 +16,6 @@ make_swap_filesystem () {
 swap_already_on () {
   test -n "$(swapon --show)" 
 }
-
 
 enable_swap_filesystem () {
   local partition="$1"

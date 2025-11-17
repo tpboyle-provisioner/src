@@ -15,9 +15,9 @@ source "$SRC_SYS_FILESYSTEMS_ROOT_DIR/ext4.sh"
 # INTERFACE
 
 make_root_filesystem () {
-  partition="$1"
-  type="$2"
-  root_dir_mount="$3"
+  local partition="$1"
+  local type="$2"
+  local root_dir_mount="$3"
   case "$type" in
     "ext4")
       make_ext4_root_filesystem "$partition" "$root_dir_mount" ;;
@@ -38,6 +38,6 @@ mount_root_filesystem () {
 }
 
 unmount_root_filesystem () {
-  root_dir_mount="$1"
+  local root_dir_mount="$1"
   umount "$root_dir_mount"
 }

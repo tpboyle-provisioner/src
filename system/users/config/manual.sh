@@ -13,19 +13,19 @@ source "$SRC_USERS_CONFIG_DIR/auto.sh"
 # INTERFACE
 
 configure_root () {
-  password="$(read_password "root")"
+  local password="$(read_password "root")"
   set_user_password "root" "$password"
 }
 
 configure_sudoer_user () {
-  username="$(configure_standard_user)"
+  local username="$(configure_standard_user)"
   ensure_user_is_in_group "$username" "wheel"
 }
 
 configure_standard_user () {
-  username="$(read_username)"
+  local username="$(read_username)"
   create_user "$username"
-  password="$(read_password "$username")"
+  local password="$(read_password "$username")"
   set_user_password "$username" "$password"
   echo "$username"
 }
@@ -35,13 +35,13 @@ configure_standard_user () {
 
 read_username () {
   read -p "Enter the standard user's name [$DEFAULT_USER_NAME]: " name
-  name=${name:-$DEFAULT_USER_NAME}
+  local name=${name:-$DEFAULT_USER_NAME}
   echo "$name"
   return 0
 }
 
 read_password () {
-  user="$1"
+  local user="$1"
   default_user_password="${user^}1234!"
   while true; do
     read -s -p "Enter $user's password [$default_user_password]: " pass

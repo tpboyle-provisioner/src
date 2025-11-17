@@ -4,6 +4,6 @@
 # INTERFACE
 
 partition_get_uuid () {
-  partition="$1"
+  local partition="$1"
   echo "$(blkid -o value -s UUID "$partition")"
 }

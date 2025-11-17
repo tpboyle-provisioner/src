@@ -12,7 +12,6 @@ pacman_ensure_packages_are_installed () {
 
 pacman_ensure_package_is_installed () {
   local package="$@"
-  echo "1"
   if ! pacman_package_is_installed "$package"; then
     pacman_install_package "$package"
   fi

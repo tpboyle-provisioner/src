@@ -12,7 +12,7 @@ set_timezone () {
   local zone="$1"
   echo "Setting the timezone to '$zone'..."
   if timezone_exists "$zone"; then
-    _link_timezone "$zone"
+    _set_timezone "$zone"
   else
     echo "WARNING: Timezone $zone does not exist in $TIMEZONES_DIR!"
     echo "  The timezone will not be set. This may cause issues."
@@ -27,6 +27,6 @@ timezone_exists () {
 
 # IMPLEMENTATION
 
-_link_timezone () {
+_set_timezone () {
   ln -sf "$TIMEZONES_DIR/$zone" /etc/localtime
 }

@@ -3,8 +3,8 @@
 
 # SOURCES
 
-source "./src/system/files.sh"
 source "./src/logger.sh"
+source "./src/system/files.sh"
 
 
 # CONSTANTS
@@ -37,7 +37,7 @@ _enable_wheel_group () {
 }
 
 _push_sudo_editor () {
-  command="$1"
+  local command="$1"
   export SUDO_EDITOR_OLD="$SUDO_EDITOR"
   export SUDO_EDITOR="sed -i -e 's/# $WHEEL_LINE/$WHEEL_LINE/g'" #"$command"
 }

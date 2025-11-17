@@ -12,11 +12,7 @@ set_locale () {
   local locale="$1"
   echo "Setting the locale to '$locale'..."
   if locale_defined "$locale"; then
-    if ! _locale_generation_enabled_for "$locale"; then
-      _exclusively_enable_locale_generation_for "$locale"
-    fi
-    _generate_locale
-    _set_locale_conf "$locale"
+    _set_locale "$locale"
   else
     echo "WARNING: locale '$locale' does not exist in /etc/locale.gen!"
     echo "  The locale will not be set. This may cause issues."
@@ -30,6 +26,15 @@ locale_defined () {
 
 
 # IMPLEMENTATION
+
+_set_locale () {
+  local locale="$1"
+  if ! _locale_generation_enabled_for "$locale"; then
+    _exclusively_enable_locale_generation_for "$locale"
+  fi
+  _generate_locale
+  _set_locale_conf "$locale"
+}
 
 _locale_generation_enabled_for () {
   local locale="$1"
