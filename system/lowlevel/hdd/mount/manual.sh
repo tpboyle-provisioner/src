@@ -11,7 +11,9 @@ source "./src/system/lowlevel/firmware.sh"
 mount_default_filesystems () {
   local hdd="$1"
   local root_path="$2"
-  # mount_root_filesystem "${hdd}3" "$root_path"
+  if [[ "$ENCRYPT_ROOT" == "no" && "$ROOT_FS_TYPE" == "ext4" ]]; then
+    mount_root_filesystem "${hdd}3" "$root_path"
+  fi
   mount_boot_filesystem "${hdd}1" "$root_path"
 }
 

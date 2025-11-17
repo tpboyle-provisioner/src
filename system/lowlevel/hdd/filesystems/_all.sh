@@ -15,7 +15,10 @@ source "$SRC_SYS_FILESYSTEMS_DIR/swap.sh"
 
 make_default_filesystems () {
   local hdd="$1"
+  local root_partition="$2"
+  local root_fs_type="$3"
+  local root_dir_mount="$4"
   make_boot_filesystem "${hdd}1"
   make_swap_filesystem "${hdd}2"
-  make_root_filesystem "/dev/mapper/$CRYPT_FS_NAME"
+  make_root_filesystem "${root_partition:-${hdd}3}" "$root_fs_type" "$root_dir_mount"
 }

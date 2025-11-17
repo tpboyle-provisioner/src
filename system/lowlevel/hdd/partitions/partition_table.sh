@@ -4,6 +4,8 @@
 # SOURCES
 
 source "./src/system/lowlevel/hdd/encryption/partition.sh"
+source "./src/system/lowlevel/hdd/filesystems/swap.sh"
+source "./src/system/lowlevel/hdd/partitions/actions/_all.sh"
 
 
 # INTERFACE
@@ -28,9 +30,9 @@ delete_partition_table () {
 _prep_for_deleting_partition_table () {
   local hdd="$1"
   echo "Preparing to delete any existing partition table from '$hdd'..."
-  umount "$BOOT_DIR_MOUNT"
-  umount "$ROOT_DIR_MOUNT"
+  umount "$BOOT_DIR_MOUNT" &> /dev/null
+  umount "$ROOT_DIR_MOUNT" &> /dev/null
   unmount_all_encrypted_partitions
-  swapoff -a &> /dev/null
-  umount ${hdd}* &> /dev/null
+  disable_all_swap_filesystems
+  unmount_all_partitions_for_hdd "$hdd"
 }

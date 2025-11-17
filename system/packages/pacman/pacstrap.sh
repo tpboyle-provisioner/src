@@ -5,7 +5,7 @@
 
 pacman_run_pacstrap () {
   local root_path="$1"
-  # _pacman_prep_partition_for_pacstrap "$root_path"
+  _pacman_prep_partition_for_pacstrap "$root_path"
   echo "Running pacstrap on root path '$root_path'..."
   pacstrap "$root_path" \
     base \
@@ -29,6 +29,12 @@ pacman_run_pacstrap () {
 # IMPLEMENTATION
 
 _pacman_prep_partition_for_pacstrap () {
+  local root_path="$1"
+  echo "Preparing the root partition to run pacstrap..."
+  _pacman_clear_root_partition "$root_path"
+}
+
+_pacman_clear_root_partition () {
   local root_path="$1"
   echo "Clearing root partition..."
   rm -rf "$root_path/{*,.*}"

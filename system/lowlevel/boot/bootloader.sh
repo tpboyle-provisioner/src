@@ -15,9 +15,11 @@ install_bootloader () {
 }
 
 install_bootloader_for_encrypted_root () {
+  root_partition="$1"
+  crypt_fs_name="$2"
   enable_encryption_in_mkinitcpio
   _install_bootloader_for_current_bios_type
-  inform_grub_of_uuids_for_encrypted_device /dev/vda3
+  inform_grub_of_uuids_for_encrypted_device "$root_partition" "$crypt_fs_name"
   _make_grub_config
 }
 

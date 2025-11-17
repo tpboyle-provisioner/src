@@ -6,7 +6,7 @@ SRC_SYS_PARTITIONS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # SOURCES
 
-source "$SRC_SYS_PARTITIONS_DIR/create.sh"
+source "$SRC_SYS_PARTITIONS_DIR/actions/_all.sh"
 source "$SRC_SYS_PARTITIONS_DIR/partition_table.sh"
 
 

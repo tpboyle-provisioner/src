@@ -17,10 +17,17 @@ source "$SRC_HDD_DIR/partitions/_all.sh"
 
 run_partition_jobs () {
   local hdd="$1"
-  local root_path="$2"
+  local root_dir_mount="$2"
+  local root_fs_type="$3"
+  local encrypt_root="$4"
+  local crypt_fs_name="$5"
   echo "Running partition jobs..."
   partition_hard_drive "$hdd"
-  encrypt_and_open_partition "${hdd}3" "$CRYPT_FS_NAME"
-  make_default_filesystems "$hdd"
-  mount_default_filesystems "$hdd" "$root_path"
+  if [[ "$encrypt_root" == "yes" ]]; then
+    encrypt_and_open_partition "${hdd}3" "$crypt_fs_name"
+    make_default_filesystems "$hdd" "/dev/mapper/$crypt_fs_name" "$root_fs_type" "$root_dir_mount"
+  else
+    make_default_filesystems "$hdd" "${hdd}3" "$root_fs_type" "$root_dir_mount"
+  fi
+  mount_default_filesystems "$hdd" "$root_dir_mount"
 }
