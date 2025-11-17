@@ -4,6 +4,7 @@
 # SOURCE
 
 source "./src/system/users/groups.sh"
+source "./src/system/users/skel.sh"
 
 
 # INTERFACE
@@ -24,6 +25,7 @@ create_user () {
   local user="$1"
   shift
   local args="$@"
+  ensure_skel_is_set_up
   useradd \
     -m \
     -s /bin/bash \
