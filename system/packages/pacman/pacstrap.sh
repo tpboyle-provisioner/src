@@ -14,15 +14,18 @@ pacman_run_pacstrap () {
     linux-firmware \
     man \
     man-pages \
-    nano \
-    vim \
-    networkmanager \
     lvm2 \
     cryptsetup \
     grub \
     grub-btrfs \
     efibootmgr \
-    snapper
+    snapper \
+    nano \
+    vim \
+    networkmanager \
+    iwd \
+    hdcpcd \
+    git
 }
 
 
