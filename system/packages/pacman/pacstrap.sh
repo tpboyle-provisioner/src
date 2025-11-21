@@ -24,7 +24,7 @@ pacman_run_pacstrap () {
     vim \
     networkmanager \
     iwd \
-    hdcpcd \
+    dhcpcd \
     git
 }
 

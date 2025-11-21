@@ -4,6 +4,6 @@
 # INTERFACE
 
 regenerate_mkinitcpio () {
-  echo "Regenerting mkinitcpio..."
+  echo "Regenerating mkinitcpio..."
   mkinitcpio -P
 }
